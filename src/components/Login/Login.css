@@ -1,0 +1,46 @@
+.Login_Container{
+    display: flex;
+   justify-content: center;
+    align-items: center;
+    /* min-width: 100vh; */
+ }
+ .Login_form_container{
+    
+     padding:25px 25px 25px 1.5em;
+}
+ 
+ .upper_form_container{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     gap: 20px;
+     padding-bottom: 20px;
+ }
+ .upper_form_container p{
+     display: flex;
+     justify-content: flex-end;
+     font-size: 1.2em;
+     margin-left: 1em;
+ }
+ .upper_form_container h1{
+     margin-left:1em;
+ }
+ .Login_Img_container{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+ 
+ }
+ 
+ .Login_Img_container img[alt="img"]{
+     width: 100%;   
+ }
+ 
+ @media only screen and (max-width: 600px) {
+     .Login_Container{
+           flex-wrap: wrap;
+      }
+     
+   }
