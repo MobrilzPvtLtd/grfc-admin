@@ -26,11 +26,11 @@ const navigationItems = [
   },
   {
     label: "Products",
-    path: "/scraprates",
+    path: "/products",
   },
   {
     label: "Appointments",
-    path: "/scraprates",
+    path: "/appointments",
   }
 ];
 

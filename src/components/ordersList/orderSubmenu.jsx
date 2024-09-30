@@ -1,5 +1,5 @@
 export const submenuHeading = [
-  "All Pickup",
+  "All Orders",
   "live",
   "Allocated",
   "Picked Orders",

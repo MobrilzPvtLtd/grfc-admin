@@ -12,7 +12,9 @@ import Vendor from "./components/Vendor/Vendor";
 import Navigation from './components/Header/Navigation'
 import VendorCount from "./components/Report/vendor/VendorCount";
 import ReportCount from "./components/Report/ReportCount";
-import Products from "./components/scraprates/Products";
+import Products from "./components/Products/Products";
+import Appointments from "./components/Appointments/Appointment";
+
 // import AllocateVendorList from "./components/ordersList/AllocateVendorList";
 function App() {
   return (
@@ -38,7 +40,7 @@ function App() {
           }
         />
         <Route
-          path="/users"
+          path="/vendors"
           element={
             <ProtectedRoutes>
               <Vendor />
@@ -50,6 +52,14 @@ function App() {
           element={
             <ProtectedRoutes>
               <Products />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/appointments"
+          element={
+            <ProtectedRoutes>
+              <Appointments />
             </ProtectedRoutes>
           }
         />

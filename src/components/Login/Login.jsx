@@ -37,6 +37,7 @@ function Login() {
           }
           if (payload.status === 200) {
             toast.success(`${payload?.data?.message}`);
+            console.log(payload.data.token)
 
             localStorage.setItem("AuthToken", payload.data.token);
             navigate("/", { state: null });

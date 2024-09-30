@@ -8,6 +8,7 @@ import {
   fetchScrap,
   updateItemRate,
 } from "../../redux/features/scrapRateSlice";
+import { fetchProcuct } from "../../redux/features/productsSlice";
 
 function Products() {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function Products() {
       updateItemRate({ id: itemId, formData: { rate: editedPrice } })
     ).then((response) => {
       const updateResponse = response;
-      dispatch(fetchScrap());
+      dispatch(fetchProcuct());
       return updateResponse;
     });
     // Add your logic to save the edited price for the specific item

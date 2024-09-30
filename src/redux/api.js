@@ -89,6 +89,29 @@ export const walletHistory = (formData) => {
   return API.post("transactions/wallet-history/", formData);
 };
 
+export const addCategory = (formData) => {
+  console.log(localStorage.getItem)
+  console.log(formData, "from data")
+  return API.post("category/", (formData), {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `${token}`,
+    },
+  });
+};
+
+export const getAppointments = () => {
+  return API.get('appointments'); // Adjust the endpoint as necessary
+};
+
+export const getProducts = () => {
+  return API.get('product/1',{
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `${localStorage.getItem('AuthToken')}`,
+    },
+  }); // Adjust the endpoint as necessary
+};
 export const vendorReport = () => {
   return API.get("accounts/vendor/");
 };

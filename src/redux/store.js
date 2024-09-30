@@ -9,6 +9,9 @@ import { walletHistorySlice } from "./features/walletHistorySlice";
 import {UsersDetails} from './features/fetchUsersDetails'
 import { VendorReportDetails } from "./features/vendorReportSlice";
 import { VendorCountDetails } from "./features/vendorTotalCountSlice";
+import { addCategoryrSlice } from "./features/categorySlice";
+import { fetchAppointments } from "./features/appointmentSlice";
+import { productSlice } from "./features/productsSlice";
 export default configureStore({
   reducer: {
     auth: AuthReducer.reducer,
@@ -21,5 +24,8 @@ export default configureStore({
     VendorDetailsWithId:UsersDetails.reducer,
     vendorReports: VendorReportDetails.reducer,
     vendorCounts: VendorCountDetails.reducer,
+    category:addCategoryrSlice.reducer,
+    appointments:fetchAppointments.reducer,
+    productDetails:productSlice.reducer
   },
 });
