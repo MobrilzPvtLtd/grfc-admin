@@ -98,3 +98,38 @@
 // };
 
 // export default LineChart;
+import React from "react";
+import { TEChart } from "tw-elements-react";
+
+export default function ChartPie() {
+  return (
+    <>                   
+    <h2>hello</h2>
+    <TEChart
+      type="pie"
+      data={{
+        labels: [
+          "Orders",
+          "Products",
+          "Appointments",
+         
+        ],
+        datasets: [
+          {
+            label: "Traffic",
+            data: [200, 132, 160],
+            backgroundColor: [
+                "rgba(66, 133, 244, 0.5)",
+              
+              "rgba(77, 182, 172, 0.5)",
+              "rgba(63, 81, 181, 0.5)",
+             
+             
+            ],
+          },
+        ],
+      }}
+    />
+      </>
+  );
+}

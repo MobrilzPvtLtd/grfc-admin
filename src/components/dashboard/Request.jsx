@@ -29,8 +29,8 @@ export function Request() {
           return (
             <div key={index} className="px-10 py-10">
               {IconComponent && <IconComponent size={60} className='bg-green-100 mb-5 inline-block text-center p-3  rounded-3xl text-green-600' />} {/* Render the icon component */}
-              <h4 className="text-xl my-10 text-black xl:text-sm ">{request.label}</h4>
-              <h2 className="texl-2xl text-black">{request.number}</h2>
+              <h4 className="text-xl my-10 text-black xl:text-md ">{request.label}</h4>
+              <h2 className="text-2xl text-black xl:text-md">{request.number}</h2>
             </div>
           );
         })}

@@ -36,3 +36,36 @@
 // export default DashChart;
 
 
+import React from "react";
+import { TEChart } from "tw-elements-react";
+
+export default function ChartBar() {
+  return (
+      <TEChart
+        type="bar"
+        data={{
+          labels: [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ],
+        
+          datasets: [
+            {
+              label: "Orders",
+              data: [2112, 2343, 2545, 3423, 2365, 1985, 987,2545, 3423, 2365, 1985, 987],
+            },
+          ],
+        }}
+      />
+  );
+}
