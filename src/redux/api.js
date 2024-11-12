@@ -3,8 +3,8 @@ import axios from "axios";
 const API = axios.create({
   // baseURL: 'http://208.109.33.187:8000/',
 
-  //  baseURL:"https://grfc.mobrilz.digital/api/",
-  baseURL: "http://127.0.0.1:3002/api/",
+   baseURL:"https://grfc-backend.onrender.com/api/",
+  // baseURL: "http://127.0.0.1:3002/api/",
 
   // baseURL: 'http://192.168.1.19:8000',
 });
