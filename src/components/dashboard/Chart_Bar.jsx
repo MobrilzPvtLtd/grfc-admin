@@ -1,3 +1,57 @@
+
+import React from "react";
+import { TEChart } from "tw-elements-react";
+
+export default function ChartBar() {
+  return (
+<TEChart
+  type="bar"
+  data={{
+    labels: [
+      "January", "February", "March", "April", "May", "June", "July", 
+      "August", "September", "October", "November", "December",
+    ],
+    datasets: [
+      {
+        label: "Orders",
+        data: [2112, 2343, 2545, 3423, 2365, 1985, 987, 2545, 3423, 2365, 1985, 987],
+        backgroundColor: "rgba(66, 133, 244, 0.5)", // You can customize the bar color
+      },
+    ],
+  }}
+  options={{
+    responsive: true, 
+    maintainAspectRatio: false, 
+    scales: {
+      x: {
+        
+      },
+      y: {
+        beginAtZero: true, 
+      },
+    },
+    plugins: {
+      legend: {
+        position: "top", 
+      },
+    },
+  }}
+ 
+/>
+
+      
+  );
+}
+
+
+
+
+
+
+
+
+
+
 // import React,{useState} from 'react'
 // import Chart from "react-apexcharts";
 
@@ -35,37 +89,3 @@
 // }
 // export default DashChart;
 
-
-import React from "react";
-import { TEChart } from "tw-elements-react";
-
-export default function ChartBar() {
-  return (
-      <TEChart
-        type="bar"
-        data={{
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ],
-        
-          datasets: [
-            {
-              label: "Orders",
-              data: [2112, 2343, 2545, 3423, 2365, 1985, 987,2545, 3423, 2365, 1985, 987],
-            },
-          ],
-        }}
-      />
-  );
-}

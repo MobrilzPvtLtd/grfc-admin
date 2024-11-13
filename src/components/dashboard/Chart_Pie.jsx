@@ -1,7 +1,62 @@
+import React from "react";
+import { TEChart } from "tw-elements-react";
+
+
+
+export default function ChartPie() {
+  return (
+      <TEChart
+        type="pie"
+        data={{
+          labels: ["Orders", "Products", "Appointments"],
+          datasets: [
+            {
+              label: "Traffic",
+              data: [200, 132, 160],
+              backgroundColor: [
+                "rgba(66, 133, 244, 0.5)",
+                "rgba(77, 182, 172, 0.5)",
+                "rgba(63, 81, 181, 0.5)",
+              ],
+            },
+          ],
+        }}
+        options={{
+          responsive: true, // Make chart responsive
+          maintainAspectRatio: false, // Allow the chart to scale freely
+          plugins: {
+            legend: {
+              position: "top", // Adjust legend position as needed
+            },
+          },
+        }}
+      />
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // /* eslint-disable no-unused-vars */
 // import React from "react";
 // import {CanvasJSChart} from 'canvasjs-react-charts'
-
 
 // const LineChart = () => {
 //   const options = {
@@ -64,7 +119,7 @@
 //           </div>
 //         </div>
 //         <div className="flex justify-evenly mb-10">
-         
+
 //           <div className="radio flex  ">
 //             <div className='mx-2'>
 //             <input type="radio" className=" " name="Daily" id="daily" />
@@ -78,16 +133,14 @@
 //             <input type="radio" className=" " name="Yearly" id="daily" />
 //            <span className='px-2'> Yearly</span>
 //             </div>
-            
-          
+
 //           </div>
 //         </div>
 //       </div>
 //       <div className='pt-10'>
 //       <CanvasJSChart options={options} className="font-thin"  />
 //       </div>
-     
-      
+
 //       {/* You can get reference to the chart instance using onRef. This allows you to access all chart properties and methods */}
 //     </div>
 //     <div className='w-full flex justify-center mb-6'>
@@ -98,38 +151,4 @@
 // };
 
 // export default LineChart;
-import React from "react";
-import { TEChart } from "tw-elements-react";
 
-export default function ChartPie() {
-  return (
-    <>                   
-    <h2>hello</h2>
-    <TEChart
-      type="pie"
-      data={{
-        labels: [
-          "Orders",
-          "Products",
-          "Appointments",
-         
-        ],
-        datasets: [
-          {
-            label: "Traffic",
-            data: [200, 132, 160],
-            backgroundColor: [
-                "rgba(66, 133, 244, 0.5)",
-              
-              "rgba(77, 182, 172, 0.5)",
-              "rgba(63, 81, 181, 0.5)",
-             
-             
-            ],
-          },
-        ],
-      }}
-    />
-      </>
-  );
-}

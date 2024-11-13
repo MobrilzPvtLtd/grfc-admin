@@ -11,7 +11,7 @@ export function Layout() {
           <Header />
         </header>
       )}
-      <main className="h-full min-h-screen min-w-screen">
+      <main className="">
         <Outlet />
       </main>
     </div>

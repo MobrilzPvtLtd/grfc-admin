@@ -67,7 +67,7 @@ function Navigation() {
               <img
                 src={logohead}
                 alt="companyLogo"
-                className="xl:w-44 h-10 w-10 md:w-28 "
+                className="w-16 md:w-1/2"
               />
             </div>
           </NavLink>
