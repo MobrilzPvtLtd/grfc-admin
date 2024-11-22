@@ -2,12 +2,14 @@ import { useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { createNewCategory } from "../../redux/features/categorySlice";
 
-function AddCategory({ token }) {
+function AddCategory() {
   // State for category name and image
+  let token = localStorage.getItem("AuthToken")
   const [categoryName, setCategoryName] = useState("");
   const [image, setImage] = useState(null);
-
   const dispatch = useDispatch();
+  
+  
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -16,28 +18,32 @@ function AddCategory({ token }) {
     // Log the category name and image before submission
     console.log("Category Name:", categoryName);
     console.log("Selected Image:", image);
-    
-    if (!categoryName.trim() || !image) {
-      alert("Please enter a valid category name and select an image.");
-      return;
-    }
-
     // Create FormData object
     const formData = new FormData();
     formData.append("name", categoryName);
     formData.append("productImages", image); // Only appending a single image
+    alert("form data add category" , formData)
+    
+    if (!categoryName.trim() || !image) {
+      alert("Please enter a valid category name and select an image.");
+      return;
 
+    }
+
+    
+    
     // Log FormData contents
     for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value); // Log each entry in FormData
     }
-    console.log(formData, "sdfghjk")
+   
     // Dispatching action with formData and token
     dispatch(createNewCategory({ formData, token }));
 
     // Reset input fields after submission
-    setCategoryName("");
-    setImage(null);
+    // setCategoryName("");
+    // setImage(null);
+   
   };
 
   // Handle image file selection

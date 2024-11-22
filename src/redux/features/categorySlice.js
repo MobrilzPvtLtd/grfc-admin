@@ -8,8 +8,11 @@ export const createNewCategory = createAsyncThunk(
     console.log("Received token in thunk:", token); // Check if token is received correctly
     try {
       const response = await api.addCategory(formData, token); // Ensure you're using the token
+      
+        alert("hello" , response.data)
       return response.data; // Assuming response contains data
     } catch (error) {
+      alert("Error")
       return rejectWithValue(error.message);
     }
   }

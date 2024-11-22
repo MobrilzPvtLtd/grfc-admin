@@ -37,9 +37,9 @@ function Login() {
           }
           if (payload.status === 200) {
             toast.success(`${payload?.data?.message}`);
-            console.log(payload.data.token)
+            console.log(payload.data.data.token)
 
-            localStorage.setItem("AuthToken", payload.data.token);
+            localStorage.setItem("AuthToken", payload.data.data.token);
             navigate("/", { state: null });
           } else {
             toast.error("Check credentials");
