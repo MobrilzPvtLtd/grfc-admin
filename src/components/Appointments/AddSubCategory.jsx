@@ -1,25 +1,64 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
-function AddSubCategory(props) {
-  // State to handle the input values for subcategory name and image
+function AddSubCategory({ setShowPopup }) {
+  // State to handle inputs, loading state, and errors
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name.trim()) {
-      alert(`Sub-Category "${name}" has been added.`);
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
 
-      // Log the name and image for demonstration (you can handle image uploading here)
-      console.log("Sub-Category Name:", name);
-      console.log("Selected Image:", image);
+    const token = localStorage.getItem("AuthToken"); // Fetch token from localStorage
+    if (!token) {
+      alert("Authentication token is missing. Please log in again.");
+      return;
+    }
 
-      setName(""); // Reset the input fields after submission
-      setImage(null); // Reset the image input
-    } else {
+    if (!name.trim()) {
       alert("Please enter a valid sub-category name.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name.trim()); // Append name to formData
+    if (image) {
+      formData.append("image", image); // Append image if it's selected
+    }
+
+    try {
+      setLoading(true); // Start loading
+      // Make an asynchronous request
+      const response = await axios.post(
+        "http://localhost:3002/api/subcategory",
+        formData,
+        {
+          headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }, // Ensure token format matches backend
+        }
+      );
+
+      // Handle the response
+      if (response.status === 200 || response.status === 201) {
+        console.log("Sub-category created successfully:", response.data);
+        alert("Sub-category created successfully!");
+        setName(""); // Reset name
+        setImage(null); // Reset image
+        if (setShowPopup) setShowPopup(false); // Close popup if function exists
+      } else {
+        alert("An error occurred while creating the sub-category.");
+      }
+    } catch (error) {
+      console.error("Error creating sub-category:", error.response || error.message);
+      alert(
+        `An error occurred: ${
+          error.response?.data?.message || "Please try again later."
+        }`
+      );
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -31,16 +70,16 @@ function AddSubCategory(props) {
   return (
     <div className="fixed z-50 inset-0 flex bg-opacity-50 bg-gray-300 justify-center items-center">
       <div className="absolute inset-0"></div>
-      <div className="bg-white relative h-auto p-10 w-1/2 m-48">
+      <div className="bg-white relative h-auto p-10 w-1/2 m-48 shadow-lg rounded-lg">
         <MdOutlineCancel
           className="absolute top-0 right-0 cursor-pointer"
           style={{ color: "black" }}
           size={32}
-          onClick={() => props?.setShowPopup(false)}
+          onClick={() => (setShowPopup ? setShowPopup(false) : null)}
         />
         <div>
           <h2 className="text-2xl font-bold mb-4">Add Sub-Category</h2>
-          <form onSubmit={handleSubmit}>
+          <form encType="multipart/form-data" onSubmit={handleSubmit}>
             {/* Subcategory Name Input */}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -70,9 +109,12 @@ function AddSubCategory(props) {
 
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
             >
-              Add Sub-Category
+              {loading ? "Adding..." : "Add Sub-Category"}
             </button>
           </form>
         </div>
