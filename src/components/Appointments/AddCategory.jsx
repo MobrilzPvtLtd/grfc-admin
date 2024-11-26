@@ -22,10 +22,10 @@ function AddCategory() {
     const formData = new FormData();
     formData.append("name", categoryName);
     formData.append("productImages", image); // Only appending a single image
-    alert("form data add category" , formData)
+
     
-    if (!categoryName.trim() || !image) {
-      alert("Please enter a valid category name and select an image.");
+    if (!categoryName.trim() ) {
+      alert("Please enter a valid category name ");
       return;
 
     }

@@ -1,18 +1,26 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
 function AddSubCategory({ setShowPopup }) {
-  // State to handle inputs, loading state, and errors
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [categoryData, setCategoryData] = useState(null);
+  const [selectedValue, setSelectedValue] = useState(null);
 
-  // Function to handle form submission
+  let url = import.meta.env.VITE_BACKEND_BASE_URL;
+  useEffect(() => {
+    const handleCategories = async () => {
+      const response = await axios.get(`${url}/category`);
+      setCategoryData(response.data.data);
+    };
+    handleCategories();
+  }, []);
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
-    const token = localStorage.getItem("AuthToken"); // Fetch token from localStorage
+    const token = localStorage.getItem("AuthToken");
     if (!token) {
       alert("Authentication token is missing. Please log in again.");
       return;
@@ -24,19 +32,22 @@ function AddSubCategory({ setShowPopup }) {
     }
 
     const formData = new FormData();
-    formData.append("name", name.trim()); // Append name to formData
+    formData.append("name", name.trim()); 
+    formData.append("category_id", selectedValue);
     if (image) {
-      formData.append("image", image); // Append image if it's selected
+      formData.append("image", image); 
     }
 
     try {
-      setLoading(true); // Start loading
-      // Make an asynchronous request
+      setLoading(true); 
       const response = await axios.post(
-        "http://localhost:3002/api/subcategory",
+        `${url}/subcategory`,
         formData,
         {
-          headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }, // Ensure token format matches backend
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          }, 
         }
       );
 
@@ -51,7 +62,10 @@ function AddSubCategory({ setShowPopup }) {
         alert("An error occurred while creating the sub-category.");
       }
     } catch (error) {
-      console.error("Error creating sub-category:", error.response || error.message);
+      console.error(
+        "Error creating sub-category:",
+        error.response || error.message
+      );
       alert(
         `An error occurred: ${
           error.response?.data?.message || "Please try again later."
@@ -61,12 +75,19 @@ function AddSubCategory({ setShowPopup }) {
       setLoading(false); // Stop loading
     }
   };
-
-  // Function to handle image file selection
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
+  const handleGetId = (id) => {
+    console.log("Selected ID:", id);
+  };
 
+  const handleChange = (event) => {
+    const selectedId = event.target.value;
+    setSelectedValue(selectedId);
+    handleGetId(selectedId); // Pass the selected ID to your handler
+  };
+  console.log("category ki id", selectedValue);
   return (
     <div className="fixed z-50 inset-0 flex bg-opacity-50 bg-gray-300 justify-center items-center">
       <div className="absolute inset-0"></div>
@@ -89,12 +110,31 @@ function AddSubCategory({ setShowPopup }) {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow bg-white border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 placeholder="Enter sub-category name"
               />
             </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Category Name:
+              </label>
 
-            {/* Image Upload Input */}
+              <select
+                className="bg-white"
+                value={selectedValue}
+                onChange={handleChange}
+              >
+                <option value="" >
+                  Select a category
+                </option>
+
+                {categoryData?.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Upload Image:

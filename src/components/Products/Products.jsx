@@ -54,7 +54,6 @@ function Products() {
   useEffect(() => {
     dispatch(fetchProcuct());
   }, [dispatch]);
-console.log(productsData)
   const openProductPopup = () => {
     setShowProductPopup(true);
   };

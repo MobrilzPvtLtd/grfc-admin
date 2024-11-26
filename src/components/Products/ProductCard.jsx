@@ -1,7 +1,6 @@
 import React from "react";
 
 function ProductCard({ product }) {
-  console.log(product?.product_img, "link")
 
   return (
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">

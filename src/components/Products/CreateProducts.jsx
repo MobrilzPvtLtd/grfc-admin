@@ -1,40 +1,115 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 
 function CreateProducts({ setShowPopup }) {
-  const [formData, setFormData] = useState({
+  const [formData2, setFormData2] = useState({
     title: "",
     product_type: "",
     description: "",
     price: "",
-    stock_quantity: "",
-    product_img: [],
+    stock_quantity: ""
   });
+  let url = import.meta.env.VITE_BACKEND_BASE_URL;
+  const [producttype, setProducttype] = useState(null);
+  const [fileInput , setFileInput] = useState(null);
+
+  useEffect(()=>{
+    const handleProductType = async()=>{
+      const response = await axios.get(`${url}/producttype`);
+      setProducttype(response.data.data)
+        };
+        handleProductType();
+  },[setShowPopup])
+  let token  = localStorage.getItem("AuthToken")
+  const handleProductType = async()=>{
+   // Create a FormData object
+ 
+
+  // Assuming you have file input and text data
+  // const fileInput = document.querySelector('input[type="file"]'); // Replace with your file input selector
+  // const textField = 'Some text data'; // Example text data
+
+  // // Append files to the FormData object
+  // if (fileInput.files.length > 0) {
+  //   for (let i = 0; i < fileInput.files.length; i++) {
+  //     formData.append('files', fileInput.files[i]); // `files` matches the key on the backend
+  //   }
+  // }
+
+  // // Append other data to the FormData object
+  // formData.append('data', textField); // `data` matches the key on the backend
+
+  
+};
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData2({ ...formData2, [name]: value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, product_img: Array.from(e.target.files) });
+    setFileInput(e.target.files);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+  
+    const formData = new FormData();
+  
+    // Append individual form data fields to `formData`
+    formData.append('title', formData2.title);
+    formData.append('product_type', formData2.product_type);
+    formData.append('description', formData2.description);
+    formData.append('price', formData2.price);
+    formData.append('stock_quantity', formData2.stock_quantity);
+  
+    // Append files to `formData`
+    if (fileInput.length > 0) {
+      for (let i = 0; i < fileInput.length; i++) {
+        formData.append('files', fileInput[i]); // Adjust 'files' key to match backend expectations
+      }
+    }
+  
+    // Serialize the remaining object (if required) and append it
+    const formDataJson = JSON.stringify(formData2);
+    // formData.append('data', formDataJson);
+  
+    console.log("FormData payload:");
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
+  
+    try {
+      // Send the `FormData` object using Axios
+      const response = await axios.post(`${url}/order`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: token,
+        },
+      });
+  
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error uploading data:', error);
+    }
+  
     // Reset the form (optional)
-    setFormData({
+    setFormData2({
       title: "",
       product_type: "",
       description: "",
       price: "",
       stock_quantity: "",
-      product_img: [],
     });
+  
     // Close the popup after form submission
     setShowPopup(false);
   };
+  
 
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto bg-gray-300 bg-opacity-50 flex justify-center items-center">
@@ -55,9 +130,9 @@ function CreateProducts({ setShowPopup }) {
             <input
               type="text"
               name="title"
-              value={formData.title}
+              value={formData2.title}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 bg-white leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter product title"
               required
             />
@@ -65,21 +140,22 @@ function CreateProducts({ setShowPopup }) {
 
           {/* Product Type Dropdown */}
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+            <label className="block  text-gray-700 text-sm font-bold mb-2">
               Product Type
             </label>
             <select
               name="product_type"
-              value={formData.product_type}
+              value={formData2.product_type}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             >
               <option value="">Select a product type</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Furniture">Furniture</option>
+              {producttype?.map((item , index)=>(
+ <option value={item.id} key={index}>{item.name}</option>
+              ))}
+             
+            
             </select>
           </div>
 
@@ -90,9 +166,9 @@ function CreateProducts({ setShowPopup }) {
             </label>
             <textarea
               name="description"
-              value={formData.description}
+              value={formData2.description}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter product description"
               required
             ></textarea>
@@ -106,9 +182,9 @@ function CreateProducts({ setShowPopup }) {
             <input
               type="text"
               name="price"
-              value={formData.price}
+              value={formData2.price}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter product price"
               required
             />
@@ -122,9 +198,9 @@ function CreateProducts({ setShowPopup }) {
             <input
               type="text"
               name="stock_quantity"
-              value={formData.stock_quantity}
+              value={formData2.stock_quantity}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border bg-white rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Enter stock quantity"
               required
             />
